@@ -1,15 +1,16 @@
-import React, { Fragment, Component } from 'react'
-import { Link } from 'react-router-dom';
+import React, { Component, Fragment } from 'react'
+import { Link } from 'react-router-dom'
 
-export default class Movies extends Component {
-  state = { 
+export default class OneGenre extends Component {
+  state = {
     movies: [],
     isLoaded: false,
-    error: null
-  };
+    error: null,
+    genreName: "",
+  }
 
   componentDidMount() {
-    fetch("http://localhost:4000/v1/movies")
+    fetch("http://localhost:4000/v1/movies/" + this.props.match.params.id)
       // .then((response) => response.json())
       .then((response) => {
         console.log("Status code is", response.status);
@@ -24,8 +25,9 @@ export default class Movies extends Component {
       })
       .then((json) => {
         this.setState({
-          movies: json.movies,
-          isLoaded: true
+          movies: json.movies || [],
+          isLoaded: true,
+          genreName: this.props.location.genreName
         },
         // the use of this is
         // make sure there is error message
@@ -39,9 +41,9 @@ export default class Movies extends Component {
         })
       })
   }
-  
+
   render() {
-    const  { movies, isLoaded, error } = this.state;
+    const  { movies, isLoaded, error, genreName } = this.state;
 
     if (error) {
       return <div>Error: {error.message}</div>
@@ -50,13 +52,12 @@ export default class Movies extends Component {
     } else {
       return (
         <Fragment>
-          <h2>Choose Movies</h2>
+          <h2>Genre: {genreName}</h2>
           <div className="list-group">
             {movies.map((movie) => (
               <Link 
-                key={movie.id}
+                className="list-group-item list-group-item-action" 
                 to={`/movies/${movie.id}`}
-                className="list-group-item list-group-item-action"
               >
                 {movie.title}
               </Link>
@@ -65,6 +66,5 @@ export default class Movies extends Component {
         </Fragment>
       )
     }
-
   }
 }

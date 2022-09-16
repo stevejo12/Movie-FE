@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link, useParams, useRouteMatch 
 import Admin from './components/Admin';
 import Home from './components/Home';
 import Movies from './components/Movies';
+import OneGenre from './components/OneGenre';
 import OneMovie from './components/OneMovie';
 import Genres from './Genres';
 
@@ -41,6 +42,7 @@ export default function App() {
               <Route path="/movies">
                 <Movies />
               </Route>
+              <Route path="/genre/:id" component={OneGenre} />
               <Route exact path="/genres">
                 <Genres />
               </Route>

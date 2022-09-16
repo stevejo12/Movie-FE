@@ -42,18 +42,33 @@ export default class Genres extends Component {
   render() {
     const { genres, isLoaded, error } = this.state;
 
-    return (
-      <Fragment>
-        <h2>Genres</h2>
+    if (error) {
+      return <div>Error: {error.message}</div>
+    } else if (!isLoaded) {
+      return <p>Loading...</p>
+    } else {
+      return (
+        <Fragment>
+          <h2>Genres</h2>
 
-        <ul>
-          {genres.map((m) => (
-            <li key={m.id}>
-              <Link to={`genres/${m.id}`}>{m.genre_name}</Link>
-            </li>
-          ))}
-        </ul>
-      </Fragment>
-    )
+          <div className="list-group">
+            {genres.map((m) => (
+              <Link
+                key={m.id}
+                className="list-group-item list-group-item-action"
+                to={{
+                  pathname: `genre/${m.id}`,
+                  // genreName will serve as props with path name
+                  // this.props.location.genreName
+                  genreName: m.genre_name,
+                }}
+              >
+                {m.genre_name}
+              </Link>
+            ))}
+          </div>
+        </Fragment>
+      )
+    }
   }
 }
