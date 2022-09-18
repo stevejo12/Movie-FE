@@ -54,11 +54,11 @@ export default class OneMovie extends Component {
           <h2>
             Movie: {movie.title} ({movie.year})
           </h2>
-          <div class="clearfix">
-            <div class="float-start">
+          <div className="clearfix">
+            <div className="float-start">
               <small>Rating: {movie.mpaa_rating}</small>
             </div>
-            <div class="float-end">
+            <div className="float-end">
               {movie.genres.map((m, i) => (
                 <span className="badge bg-secondary me-1" key={i}>
                   {m}
@@ -67,7 +67,7 @@ export default class OneMovie extends Component {
             </div>
           </div>
           <hr />
-          <table class="table table-compact table-striped">
+          <table className="table table-compact table-striped">
             <thead></thead>
             <tbody>
               <tr>
