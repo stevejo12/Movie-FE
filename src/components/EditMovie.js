@@ -45,6 +45,13 @@ export default class EditMovie extends Component {
   }
 
   componentDidMount() {
+    if (this.props.jwt === "") {
+      this.props.history.push({
+        pathname: "/login"
+      });
+      return;
+    }
+
     const id = this.props.match.params.id;
     if (id > 0) {
       fetch("http://localhost:4000/v1/movie/" + id)
@@ -125,12 +132,14 @@ export default class EditMovie extends Component {
 
     const data = new FormData(event.target);
     const payload = Object.fromEntries(data.entries());
-
-    console.log(payload);
+    const myHeader = new Headers();
+    myHeader.append("Content-Type", "application/json")
+    myHeader.append("Authorization", "Bearer " + this.props.jwt);
 
     const requestOptions = {
       method: "POST",
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      headers: myHeader,
     }
 
     fetch("http://localhost:4000/v1/admin/editmovie", requestOptions)
@@ -159,7 +168,11 @@ export default class EditMovie extends Component {
         {
           label: 'Yes',
           onClick: () => {
-            fetch("http://localhost:4000/v1/admin/deletemovie/" + this.state.movie.id, {method: "GET"})
+            const myHeader = new Headers();
+            myHeader.append("Content-Type", "application/json")
+            myHeader.append("Authorization", "Bearer " + this.props.jwt);
+
+            fetch("http://localhost:4000/v1/admin/deletemovie/" + this.state.movie.id, {method: "GET", headers: myHeader})
               .then(response => response.json())
               .then(data => {
                 if (data.error) {
@@ -261,7 +274,7 @@ export default class EditMovie extends Component {
             
             <hr />
             
-            <Link to="/admin" className="btn btn-primary">Save</Link>
+            <button className="btn btn-primary">Save</button>
             <Link to="/admin" className="btn btn-warning ms-1">Cancel</Link>
             {movie.id > 0 && (
               <a 

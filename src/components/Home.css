@@ -1,0 +1,6 @@
+.tickets {
+  background-image: url('./../images/movie_tickets.jpg');
+  width: 200px;
+  height: 145px;
+  margin: 0 auto;
+}
