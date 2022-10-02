@@ -3,11 +3,13 @@ import { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Admin from './components/Admin';
 import EditMovie from './components/EditMovie';
+import GraphQLs from './components/GraphQLs';
 import Home from './components/Home';
 import Login from './components/Login';
 import Movies from './components/Movies';
 import OneGenre from './components/OneGenre';
 import OneMovie from './components/OneMovie';
+import OneMovieGraphQL from './components/OneMovieGraphQL';
 import Genres from './Genres';
 
 export default class App extends Component {
@@ -91,6 +93,9 @@ export default class App extends Component {
                       </li>
                     </Fragment>
                   )}
+                  <li className="list-group-item">
+                    <Link to="/graphql">GraphQL</Link>
+                  </li>
                 </ul>
                 <pre>
                   {JSON.stringify(this.state, null, 3)}
@@ -100,6 +105,7 @@ export default class App extends Component {
             <div className="col-md-10">
               <Switch>
                 <Route path="/movies/:id" component={OneMovie} />
+                <Route path="/moviesgraphql/:id" component={OneMovieGraphQL} />
                 <Route path="/movies">
                   <Movies />
                 </Route>
@@ -111,6 +117,9 @@ export default class App extends Component {
                 />
                 <Route exact path="/genres">
                   <Genres />
+                </Route>
+                <Route exact path="/graphql">
+                  <GraphQLs />
                 </Route>
                 <Route path="/admin/movie/:id" component={(props) => <EditMovie {...props} jwt={this.state.jwt} />} />
                 <Route path="/admin" component={(props) => <Admin {...props} jwt={this.state.jwt} />} />
